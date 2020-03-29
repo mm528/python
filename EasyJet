@@ -1,0 +1,340 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import array as arr
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.alert import Alert
+from tkinter import *
+import tkinter.messagebox
+from selenium.common.exceptions import WebDriverException
+import Tkinter
+import tkMessageBox
+
+
+browser = webdriver.Chrome('/usr/local/bin/chromedriver') 
+'''had to verify the chromedriver with the mac! could open bc of the conflict new update mac
+had to do this with subline'''
+
+browser.get('http://stafftravel.easyjet.com')
+
+try:
+	ifgotin =0
+	while ifgotin<=0:
+
+		browser.execute_script("var a = prompt('Enter your crew number', 'Crew number');document.body.setAttribute('user-manual-input', a)")
+		time.sleep(10)
+		crewnumber = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+
+		if crewnumber == 'Crew number':
+			browser.execute_script("var a = prompt('Enter your crew number', 'Crew number');document.body.setAttribute('user-manual-input', a)")
+			time.sleep(10)
+			crewnumber = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+			print(crewnumber)
+		ifgotin = ifgotin +1
+			
+	ifgotin=0
+	while ifgotin<=0:
+		browser.execute_script("var a = prompt('Enter your crew password', 'Crew password');document.body.setAttribute('user-manual-input', a)")
+		time.sleep(10)
+		crewpasswordlogin = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+		if crewpasswordlogin=='Crew password':
+			browser.execute_script("var a = prompt('Enter your crew password', 'Crew password');document.body.setAttribute('user-manual-input', a)")
+			time.sleep(10)
+			crewpasswordlogin = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+			print(crewpasswordlogin)
+		ifgotin = ifgotin+1
+
+	ifgotin=0
+	while ifgotin<=0:
+
+		browser.execute_script("var a = prompt('Enter the first day your off', 'Example 22');document.body.setAttribute('user-manual-input', a)")
+		time.sleep(10)
+		dateAvailable = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+
+		if dateAvailable == 'Example 22':
+			browser.execute_script("var a = prompt('Give your date firs off', 'Example 22');document.body.setAttribute('user-manual-input', a)")
+			time.sleep(10)
+			dateAvailable = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+			print(dateAvailable)
+		ifgotin=ifgotin+1
+
+	ifgotin=0
+	while ifgotin<=0:
+
+		browser.execute_script("var a = prompt('Enter the Last day your off', 'Example 21');document.body.setAttribute('user-manual-input', a)")
+		time.sleep(10)
+		dateAvailableLast = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+
+		if dateAvailableLast == 'Example 21':
+			browser.execute_script("var a = prompt('Give your date Last off', 'Example 21');document.body.setAttribute('user-manual-input', a)")
+			time.sleep(10)
+			dateAvailableLast = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+			print(dateAvailableLast)
+		ifgotin= ifgotin+1
+
+
+	ifgotin=0
+	while ifgotin<=0:
+
+		browser.execute_script("var a = prompt('Enter the Month of your days off', 'Example MAY');document.body.setAttribute('user-manual-input', a)")
+		time.sleep(10)
+		monthAvailableLast = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+
+		if monthAvailableLast == 'Example MAY':
+			browser.execute_script("var a = prompt('Give you the Month', 'Example MAY');document.body.setAttribute('user-manual-input', a)")
+			time.sleep(10)
+			monthAvailableLast = browser.find_element_by_tag_name('body').get_attribute('user-manual-input') # get the text
+			print(monthAvailableLast)
+		ifgotin = ifgotin+1
+
+
+
+except WebDriverException:
+	browser.execute_script("var a = prompt('Enter your crew number', 'Crew number');document.body.setAttribute('user-manual-input', a)")
+	time.sleep(10)
+	pass
+
+
+
+
+login_username = browser.find_element_by_xpath('/html/body/form/div/table/tbody/tr[5]/td/input').send_keys(crewnumber)
+login_password =  browser.find_element_by_xpath('/html/body/form/div/table/tbody/tr[7]/td/input').send_keys(crewpasswordlogin)
+login_buttonlogin = browser.find_element_by_xpath('/html/body/form/div/table/tbody/tr[8]/td/button').click()
+
+'''Now you are login into the EASYJET SYSTEM 
+Lets find out how to click BARCELONA'''
+matchflighthomebase =0
+matchflightoutbase = 0
+
+def basi():
+	baseoption = browser.find_element_by_xpath('//*[@id="orig"]').send_keys('Barcelona')
+
+def tickname():
+	nameselect = browser.find_element_by_xpath('//*[@id="passenger1"]').click()
+'''Here we just selected our base (BCN)
+Now we need click our name '''
+
+
+
+
+'''Creat the file 
+
+'''
+def openfile(stdtickets):
+	file_object = open('Standbytickets.txt', 'a')
+	# Append 'hello' at the end of file
+	file_object.write("\n"+'On that day you have those confirm @@ @@ ' +str(stdtickets)+"\n")
+	# Close the file
+	file_object.close()
+
+def justopenfilewithdestination(x):
+	file_object = open('Standbytickets.txt', 'a')
+	file_object.write('  wih  '+ str(x))
+
+def openfilereturnticket(t):
+	file_object = open('Standbytickets.txt', 'a')
+	file_object.write('  wih return tickets  '+ str(t))
+
+def openfilematchflights(e):
+	file_object = open('Matchflights.txt', 'a')
+	# Append 'hello' at the end of file
+	file_object.write("\n"+'We can travel to @@ @@ ' +str(e)+"\n")
+	# Close the file
+	file_object.close()
+
+
+
+def findststanby():
+	counte = 0
+	middlelestionstandy = browser.find_element_by_xpath('/html/body/form/div/div[1]/div[4]/div[7]/div[1]/div[2]/div[1]/div[1]/div[3]/div[2]/div/div[3]')
+	withtag = middlelestionstandy.find_elements_by_tag_name('li')
+	timename = [name.text for name in withtag if name!='' and str(name).find('Standby')]
+	for x in timename:
+		if 'Standby' in x:
+			counte=counte+1
+	finalcounter = counte
+	if (finalcounter >0):
+		finalcounter=counte/2
+		print('we have ',finalcounter,' stanby tickets')
+		print('original',len(timename))
+		print('These are all tickets')
+		print(timename)
+		openfile(finalcounter)
+
+	else:
+		print('There is not standby tickets')
+
+	
+
+
+
+
+def findconfrimetickets():
+	count =0
+	middlelestionstandy = browser.find_element_by_xpath('/html/body/form/div/div[1]/div[4]/div[7]/div[1]/div[2]/div[1]/div[1]/div[3]/div[2]/div/div[3]')
+	withtag = middlelestionstandy.find_elements_by_tag_name('li')
+	timename = [name.text for name in withtag if name!='' and (str(name).find('Staff'))]
+	for x in timename:
+		if 'Staff' in x:
+			count=count+1
+			global matchflighthomebase
+			matchflighthomebase = matchflighthomebase+1
+
+	finalcounter = count
+	
+	print('we have ',finalcounter,' confirm tickets')
+	print('original',len(timename))
+	print('These are all tickets')
+	print(timename)
+	openfile(finalcounter)
+
+
+
+def findconfirmeticketsreturn():
+	sumreturn = 0
+	middleticketsreturn = browser.find_element_by_xpath('/html/body/form/div/div[1]/div[4]/div[7]/div[1]/div[2]/div[1]/div[2]/div[3]/div[2]/div/div[3]')
+	withtagreturn = middleticketsreturn.find_elements_by_tag_name('li')
+	timename = [name.text for name in withtagreturn if name!='' and (str(name).find('Staff'))]
+	for y in timename:
+		if 'Staff' in y:
+			sumreturn=sumreturn+1
+			global matchflightoutbase
+			matchflightoutbase = matchflightoutbase +1
+
+	finalcountereturn = sumreturn
+	
+	print('we have ',finalcountereturn,' confirm tickets')
+	print('original',len(timename))
+	print('These are all tickets')
+	print(timename)
+	openfilereturnticket(finalcountereturn)
+
+
+
+
+
+
+'''
+
+[u'->   To', u'Basel-Mulhouse-Freiburg (BSL)', u'Belfast Intl (BFS)', u'Berlin Schoenefeld (SXF)', u'Bordeaux (BOD)', u'Bristol (BRS)', u'Geneva (GVA)', u'Glasgow (GLA)', 
+u'Liverpool (LPL)', u'London (All Airports)', u'London Gatwick (LGW)', u'London Luton (LTN)', u'London Southend (SEN)', u'Lyon (LYS)', u'Manchester (MAN)', 
+u'Milan Malpensa (MXP)', u'Naples (NAP)', u'Newcastle (NCL)', u'Nice (NCE)', u'North West England (All Airports)', u'Paris Charles de Gaulle (CDG)']
+
+'''
+
+
+'''
+On this code about is taking the 'li' as a mark and count how many has on that [div].
+On the website we have 1 standard and we have standby
+'''
+
+
+basi()
+
+
+
+'''
+for index in range(1,totalremaincounries):
+	listremainbasesfindelemen.select_by_index(0)
+	'''
+
+outboundloopcounter=0;
+listremainbases = browser.find_element_by_xpath('//*[@id="searchDiv"]/table[1]/tbody/tr[4]/td')
+listremainbasesfindelemen = listremainbases.find_elements_by_tag_name('option')
+remainbasesloop = [remainbasesloopnewvariable.text for remainbasesloopnewvariable in listremainbasesfindelemen if listremainbasesfindelemen!='']
+remainbasesloop.pop(0) #This is how you remove element from the list
+totalremaincounries = len(remainbasesloop)
+print('This is to show how many remain countries',totalremaincounries)
+
+print(remainbasesloop)
+
+listofmatchflights= []
+for i in range(totalremaincounries):
+
+	basefly = browser.find_element_by_xpath('//*[@id="dest"]').send_keys(remainbasesloop[i])
+	tickname()
+	flyday  = browser.find_element_by_xpath('//*[@id="oDay"]').send_keys(dateAvailable)
+	flymonth = browser.find_element_by_xpath('//*[@id="oMonYear"]').send_keys(monthAvailableLast)
+	returnflightdate = browser.find_element_by_xpath('//*[@id="rDay"]').send_keys(dateAvailableLast)
+	returnflightmonth = browser.find_element_by_xpath('//*[@id="rMonYear"]').send_keys(monthAvailableLast)
+	searchbutton = browser.find_element_by_xpath('//*[@id="A1"]').click()
+	findconfrimetickets()
+	findconfirmeticketsreturn()
+	if matchflighthomebase>0 and matchflightoutbase>0:
+		openfilematchflights(str(remainbasesloop[i]))
+		listofmatchflights.append(str(remainbasesloop[i]))
+		matchflighthomebase =0
+		matchflightoutbase =0
+
+	justopenfilewithdestination(remainbasesloop[i])
+	browser.back()
+	basi()
+top = Tkinter.Tk()
+def hello():
+   	tkMessageBox.showinfo(listofmatchflights,listofmatchflights )
+
+B1 = Tkinter.Button(top, text = "Where you can fly", command = hello)
+B1.pack()
+
+top.mainloop()
+
+
+
+
+
+
+
+
+
+
+'''
+Trying the loop of the remain outbound flights
+'''
+
+
+
+'''Click your name 
+Now select date'''
+
+
+
+
+''' Click the button'''
+
+
+
+
+
+
+
+''' You are in the search flying system.
+Need to find out the standbys and the confirm tickets 
+'''
+
+
+
+
+
+
+'''edw vgazw minima gia na dw posa standby iparhoun
+tkinter.messagebox.showinfo('Python',str(len(timename)/4))
+
+
+
+'''
+'''
+An example how the array shows to the system
+[u'06:40\nArr 08:15\nStandard\n\u20ac76\n99\nInterested?\nStandby\n\u20ac13\n94\nInterested?',
+'''
+
+
+
+
+
+
+
+
