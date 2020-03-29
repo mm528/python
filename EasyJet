@@ -19,7 +19,7 @@ browser = webdriver.Chrome('/usr/local/bin/chromedriver')
 '''had to verify the chromedriver with the mac! could open bc of the conflict new update mac
 had to do this with subline'''
 
-browser.get('http://stafftravel.easyjet.com')
+browser.get('http://easyjet.com')
 
 try:
 	ifgotin =0
